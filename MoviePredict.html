@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rotten Tomatoes Link Validator</title>
+</head>
+<body>
+    <h1>Rotten Tomatoes Link Validator</h1>
+    <p>Enter a Rotten Tomatoes movie link:</p>
+    
+    <form id="validationForm">
+        <input type="text" id="movieLink" placeholder="Enter Rotten Tomatoes link...">
+        <input type="submit" value="Check">
+    </form>
+    
+    <p id="resultMessage"></p>
+    
+    <script>
+        document.getElementById("validationForm").addEventListener("submit", async function(event) {
+            event.preventDefault();
+            const movieLink = document.getElementById("movieLink").value;
+            const resultMessage = document.getElementById("resultMessage");
+            
+            // Define the regular expression pattern for Rotten Tomatoes movie links
+            const rtPattern = /^https:\/\/www\.rottentomatoes\.com\/m\/[\w-]+$/i;
+            
+            if (rtPattern.test(movieLink)) {
+                try {
+                    const response = await fetch(movieLink);
+                    if (response.ok) {
+                        resultMessage.textContent = "Valid Rotten Tomatoes link!";
+                    } else {
+                        resultMessage.textContent = "Invalid Rotten Tomatoes link.";
+                    }
+                } catch (error) {
+                    resultMessage.textContent = "An error occurred while checking the link.";
+                }
+            } else {
+                resultMessage.textContent = "Not a valid Rotten Tomatoes movie link.";
+            }
+        });
+    </script>
+</body>
+</html>
+
